@@ -1,5 +1,7 @@
 # SauceDemo Playwright Automation
 
+[![SauceDemo Tests](https://github.com/Ishaliftikhar/saucedemo-playwright-automation/actions/workflows/tests.yml/badge.svg)](https://github.com/Ishaliftikhar/saucedemo-playwright-automation/actions/workflows/tests.yml)
+
 This project is a UI automation testing project for the [SauceDemo](https://www.saucedemo.com/) website.
 
 I built this project while learning **Playwright, pytest, and the Page Object Model (POM)**. The main goal was to practice structuring automated tests instead of putting all browser actions directly inside test functions.
@@ -184,15 +186,15 @@ pytest tests/test_demosauce.py
 
 ## Test Result
 
-The current test suite contains:
+## Test Results
 
-**21 tests**
+The test suite currently contains 21 tests.
 
-Latest test run:
+Latest local test run:
 
-```text
-21 passed
-```
+`21 passed`
+
+The same test suite is also executed automatically through GitHub Actions on pushes and pull requests.
 
 ## Project Approach
 
@@ -212,5 +214,4 @@ Some possible improvements for the project are:
 * Improve browser configuration
 * Add screenshots on test failures
 * Add HTML test reporting
-* Add CI/CD using GitHub Actions
 * Expand test coverage for cart and checkout functionality
