@@ -1,4 +1,3 @@
-```text
 pytest
 pytest-playwright
-```
+playwright
