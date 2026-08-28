@@ -1,8 +1,8 @@
-# SauceDemo Playwright Automation Framework
+# SauceDemo Playwright Automation
 
-A UI automation testing framework for the SauceDemo web application using **Python, Playwright, and pytest**.
+This project is a UI automation testing project for the [SauceDemo](https://www.saucedemo.com/) website.
 
-The project follows the **Page Object Model (POM)** design pattern and uses pytest fixtures and parametrization to create reusable and maintainable automated tests.
+I built this project while learning **Playwright, pytest, and the Page Object Model (POM)**. The main goal was to practice structuring automated tests instead of putting all browser actions directly inside test functions.
 
 ## Tech Stack
 
@@ -10,7 +10,6 @@ The project follows the **Page Object Model (POM)** design pattern and uses pyte
 * Playwright
 * pytest
 * pytest-playwright
-* Page Object Model (POM)
 
 ## Project Structure
 
@@ -28,64 +27,88 @@ Saucedemo/
 ├── tests/
 │   └── test_demosauce.py
 │
+├── utils/
+│   └── helpers.py
+│
 ├── conftest.py
 ├── requirements.txt
 ├── .gitignore
 └── README.md
-├── utils/
-│   └── helpers.py
 ```
 
 ## Page Objects
 
-Each major application page has its own Page Object class.
+The application pages are separated into different Page Object classes.
 
-* `LoginPage` - Login and login error handling
-* `InventoryPage` - Product retrieval and adding products to the cart
-* `CartPage` - Opening the cart and retrieving cart products
-* `CheckoutPage` - Checkout, customer information, order summary, and validation
-* `CompleteOrderPage` - Order confirmation and returning to products
-* `MenuPage` - Logout functionality
+### LoginPage
 
-## Test Coverage
+Handles:
 
-The test suite covers:
+* Login
+* Invalid login error messages
 
-* Valid login
-* Invalid login scenarios
-* Inventory product count
-* Product data extraction
-* Adding products to cart
-* Multiple cart combinations
-* Cart product verification
-* Successful checkout
-* Invalid checkout information
-* Order completion
-* Logout
+### InventoryPage
+
+Handles:
+
+* Counting products
+* Scraping product information
+* Adding selected products to the cart
+
+### CartPage
+
+Handles:
+
+* Opening the cart
+* Retrieving cart product information
+
+### CheckoutPage
+
+Handles:
+
+* Starting checkout
+* Filling customer information
+* Continuing checkout
+* Reading order summary
+* Finishing or cancelling an order
+* Checkout validation errors
+
+### CompleteOrderPage
+
+Handles:
+
+* Getting the order confirmation message
+* Returning to the products page
+
+### MenuPage
+
+Handles:
+
+* Logging out
 
 ## Pytest Fixtures
 
-Reusable fixtures are defined in `conftest.py`.
+Reusable setup is kept in `conftest.py`.
 
 ### `logged_in_page`
 
-Opens SauceDemo and logs in using the standard test account.
+Opens SauceDemo and logs in using the standard test user.
 
 ### `cart_data`
 
-Builds on `logged_in_page`, retrieves product data, and adds the selected products to the cart.
+Builds on the logged-in fixture, collects product data, and adds selected products to the cart.
 
-The fixture supports indirect parametrization for testing different product combinations.
+The fixture can also be used with indirect parametrization to test different product selections.
 
 ### `cart_page_ready`
 
-Builds on `cart_data` and provides a page that is already prepared with products in the cart.
+Uses the cart setup and provides a page with products already added to the cart.
 
 ## Parametrization
 
-pytest parametrization is used to test multiple scenarios without duplicating test functions.
+pytest parametrization is used where the same test needs to be executed with different data.
 
-For example, different product combinations can be tested:
+For example, different product combinations are tested:
 
 ```python
 @pytest.mark.parametrize(
@@ -99,13 +122,35 @@ For example, different product combinations can be tested:
 )
 ```
 
-Invalid login and checkout scenarios are also parametrized.
+Invalid login and invalid checkout information are also tested using parametrization.
+
+## Test Coverage
+
+The test suite currently covers:
+
+* Successful login
+* Invalid login
+* Inventory product count
+* Product data extraction
+* Adding products to the cart
+* Different product combinations
+* Cart product verification
+* Successful checkout
+* Invalid checkout information
+* Order completion
+* Logout
+
+## Utilities
+
+`utils/helpers.py` contains reusable helper functions.
+
+Currently it includes a function for saving product information to a CSV file.
 
 ## Installation
 
-Clone the repository and navigate to the project directory.
+Clone the repository and move into the project directory.
 
-Install the required Python packages:
+Install the required packages:
 
 ```bash
 pip install -r requirements.txt
@@ -125,59 +170,47 @@ Run the complete test suite:
 pytest
 ```
 
-Run tests with detailed output:
+Run with more detailed output:
 
 ```bash
 pytest -v
 ```
 
-Run a specific test file:
+Run the test file directly:
 
 ```bash
 pytest tests/test_demosauce.py
 ```
 
-## Test Results
+## Test Result
 
-Current test suite:
+The current test suite contains:
 
-**21 tests passed**
+**21 tests**
+
+Latest test run:
 
 ```text
 21 passed
 ```
 
-## Design Approach
+## Project Approach
 
-The framework separates responsibilities between Page Objects and test cases.
+The project uses the Page Object Model to keep page-specific browser interactions separate from test logic.
 
-### Page Objects
+Page Objects are responsible for interacting with the application and returning information.
 
-Page Objects handle:
+The test functions are responsible for checking the expected results using assertions.
 
-* Locators
-* UI interactions
-* Extracting information from pages
-
-### Tests
-
-Tests handle:
-
-* Test scenarios
-* Test data
-* Assertions
-* Parametrization
-
-This separation makes the test suite easier to maintain and extend.
+pytest fixtures are used to avoid repeating common setup such as logging in and preparing products in the cart.
 
 ## Future Improvements
 
-Potential future improvements include:
+Some possible improvements for the project are:
 
-* Browser configuration through pytest options
-* Additional SauceDemo user scenarios
-* Screenshot capture on failures
-* HTML test reporting
-* CI/CD integration
-* Additional page workflows
-|
+* Add more SauceDemo user scenarios
+* Improve browser configuration
+* Add screenshots on test failures
+* Add HTML test reporting
+* Add CI/CD using GitHub Actions
+* Expand test coverage for cart and checkout functionality
